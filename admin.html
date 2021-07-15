@@ -11,6 +11,42 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
+    <style>
+      .container {
+        text-align: center;
+      }
+      input {
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+      footer {
+        background-color: rgb(218, 218, 218);
+        padding: 20px;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+      }
+      footer a {
+        text-decoration: none;
+        color: grey;
+        transition: color 0.3s;
+      }
+      footer a:hover {
+        color: black;
+      }
+      @media screen and (max-height: 500px) {
+        footer {
+          position: static;
+          margin-top: 20px;
+        }
+      }
+      @media screen and (max-width: 500px) and (min-height: 480px) {
+        footer {
+          position: absolute;
+          bottom: 0;
+        }
+      }
+    </style>
   </head>
   <body>
     <div class="container">
@@ -27,6 +63,7 @@
             <input
               class="form-control"
               name="password"
+              type="password"
               id="password"
               placeholder="Enter your password..."
             />
@@ -43,6 +80,11 @@
         <h1>Waitlist:</h1>
       </div>
     </div>
+    <footer>
+      <a href="/api/reserved">Reserved API</a>
+      <a href="/api/waitlist">Waitlist API</a>
+      <a href="/">Home</a>
+    </footer>
     <script
       src="https://code.jquery.com/jquery-3.6.0.min.js"
       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
@@ -55,6 +97,7 @@
           $("#username").val() == "tfadmin" &&
           $("#password").val() == "codingbootcamp"
         ) {
+          $(".reservations").append($("<h5> Click to delete. </h5>"));
           $.get("/api/reserved", function (data) {
             data.forEach(function (e) {
               const card = $("<div>");
@@ -70,12 +113,13 @@
               card.append(cardBody);
               $(".reservations").append(card);
               $(".reserved").on("click", function () {
-                const clicked = this
+                const clicked = this;
                 console.log(clicked);
-                $.post("/api/reserved", clicked.dataset.pnumber).then(function (
-                  data
-                ) {
-                  console.log(data);
+                $.post("/api/adminreserved", {
+                  data: clicked.dataset.pnumber,
+                }).then(function () {
+                  clicked.remove();
+                  alert("Deleted succesfully.");
                 });
               });
             });
@@ -97,7 +141,7 @@
               $(".waitlist").append(card);
               $(".waitlisted").on("click", function () {
                 const clicked = $(this).val();
-                $.post("/api/waitlsit", clicked.dataset.pnumber).then(function (
+                $.post("/api/waitlist", clicked.dataset.pnumber).then(function (
                   data
                 ) {
                   console.log(data);

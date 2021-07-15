@@ -27,33 +27,33 @@ app.get("/api/waitlist", function(req, res){
 })
 app.post("/api/reserved", function(req, res){
     const newReservation = req.body;
-    console.log(req.body);
     if(reservedTables.length < 5){
         reservedTables.push(newReservation);
     } else{
         waitList.push(newReservation);
     }
-    res.json(newReservation);
+    res.end();
 })
 app.post("/api/adminreserved", function(req, res){
-    const reservationToDelete = req.body;
+    const reservationToDelete = req.body.data;
     console.log(reservationToDelete);
     reservedTables.forEach(function(e){
         if(e.phonenumber == reservationToDelete){
             reservedTables.splice(reservedTables.indexOf(e), 1);
-            console.log("deleted" + e)
         }
-    })   
+    })
+    res.end();   
 })
 app.post("/api/adminwaitlist", function(req, res){
-    const waitlistToDelete = req.body;
-
+    const waitlistToDelete = req.body.data;
     waitList.forEach(function(e){
         if(e.phonenumber == waitlistToDelete){
             waitList.splice(waitList.indexOf(e), 1);
         }
     })   
+    res.end();
 })
+
 app.listen(PORT, function(){
     console.log("Server listening on port " +  PORT);
 })

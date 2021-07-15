@@ -23,20 +23,32 @@
       button {
         width: 200px;
       }
-      footer{
+      footer {
         background-color: rgb(218, 218, 218);
-        padding:20px;
-        position:absolute;
-        bottom:0;
-        width:100%;
+        padding: 20px;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
       }
-      footer a{
-        text-decoration:none;
-        color:grey;
-        transition: color 0.3s
+      footer a {
+        text-decoration: none;
+        color: grey;
+        transition: color 0.3s;
       }
-      footer a:hover{
-        color:black;
+      footer a:hover {
+        color: black;
+      }
+      @media screen and (max-height: 500px){
+        footer{
+          position:static;
+          margin-top:20px;
+        }
+      }
+      @media screen and (max-width:500px) and (min-height:480px){
+        footer{
+          position:absolute;
+          bottom:0;
+        }
       }
     </style>
   </head>
@@ -80,6 +92,7 @@
     <footer>
       <a href="/api/reserved">Reserved API</a>
       <a href="/api/waitlist">Waitlist API</a>
+      <a href="/admin">Admin Page</a>
     </footer>
     <script
       src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -100,7 +113,7 @@
         $.post("/api/reserved", newReservation).then(function (data) {
           console.log(data);
           alert("Reserved succesfully.");
-          window.location.href = "./";
+          window.location.href = "/";
         });
       });
     </script>
